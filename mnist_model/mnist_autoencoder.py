@@ -43,4 +43,3 @@ class Autoencoder(Model):
         encoded = self.encoder(x)
         decoded = self.decoder(encoded)
         return decoded
-
