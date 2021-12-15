@@ -49,5 +49,9 @@ model.fit(train_images, train_labels,
           shuffle=True,
           validation_data=(val_images, val_labels))
 
+score = model.evaluate(test_images, test_labels)
+print(f"test loss: {score[0]}")
+print(f"test accuracy: {score[1]}")
+
 save_file = os.path.join(model_dir, 'classifier_v1')
 model.save(save_file)
