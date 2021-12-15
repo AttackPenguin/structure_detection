@@ -40,7 +40,7 @@ model.compile(optimizer='adam',
                   from_logits=True),
               metrics=['accuracy'])
 
-callback = EarlyStopping(monitor='val_loss', patience=10,
+callback = EarlyStopping(monitor='val_accuracy', patience=10,
                          restore_best_weights=True,
                          min_delta=0.0001)
 
