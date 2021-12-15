@@ -7,7 +7,8 @@ from tensorflow.python.keras.callbacks import EarlyStopping
 
 model_dir = './'
 
-(train_images, train_labels), (test_images, test_labels) = datasets.cifar10.load_data()
+(train_images, train_labels), (test_images, test_labels) = \
+    datasets.mnist.load_data()
 
 train_images, test_images = train_images / 255.0, test_images / 255.0
 
@@ -37,7 +38,7 @@ model.compile(optimizer='adam',
                   from_logits=True),
               metrics=['accuracy'])
 
-callback = EarlyStopping(monitor='val_loss', patients=10,
+callback = EarlyStopping(monitor='val_loss', patience=10,
                          restore_best_weights=True,
                          min_delta=0.0001)
 
