@@ -10,7 +10,7 @@ from tensorflow.keras import layers, losses
 from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.datasets import mnist
 
-from mnist_model.channelized_autoencoder import Autoencoder
+from mnist_model.autoencoder_v2 import Autoencoder
 from mnist_model.tools import compare_input_output as compare
 
 

@@ -1,6 +1,6 @@
 import numpy as np
 
-from mnist_model.mnist_autoencoder import Autoencoder
+from mnist_model.autoencoder_v1 import Autoencoder
 
 
 def generate_noise(
