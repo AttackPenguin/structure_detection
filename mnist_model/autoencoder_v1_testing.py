@@ -16,7 +16,7 @@ from mnist_model.autoencoder_v1 import Autoencoder
 from mnist_model.tools import compare_input_output as compare
 
 data_dir = 'mnist_model/data'
-model_dir = 'mnist_model/models'
+model_dir = './models'
 
 
 def main():
