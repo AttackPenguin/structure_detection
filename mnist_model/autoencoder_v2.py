@@ -11,6 +11,7 @@ class Autoencoder(Model, ABC):
     def __init__(self,
                  input_dim: tuple[int, int] = (28, 28),
                  outer_layer: int = 80,
+                 middle_layer: int = 60,
                  inner_layer: int = 40,
                  latent_dim: int = 10):
 
@@ -33,11 +34,19 @@ class Autoencoder(Model, ABC):
                                  name=f"enc_outer_{i}")(inputs)
             enc_outer_layers.append(layer)
 
+        enc_middle_layers = list()
+        for i in range(latent_dim):
+            layer = layers.Dense(middle_layer, activation='relu',
+                                 name=f"enc_middle_{i}")(
+                enc_outer_layers[i]
+            )
+            enc_middle_layers.append(layer)
+
         enc_inner_layers = list()
         for i in range(latent_dim):
             layer = layers.Dense(inner_layer, activation='relu',
                                  name=f"enc_inner_{i}")(
-                enc_outer_layers[i]
+                enc_middle_layers[i]
             )
             enc_inner_layers.append(layer)
 
@@ -55,22 +64,30 @@ class Autoencoder(Model, ABC):
         )
 
         # Create Decoder
-        inputs = layers.Input(
-            shape=(latent_dim,),
-            name='decoder_input'
-        )
+        inputs = list()
+        for i in range(latent_dim):
+            layer = layers.Input(shape=(1,), name=f'decoder_input_{i}')
+            inputs.append(layer)
 
         dec_inner_layers = list()
         for i in range(latent_dim):
             layer = layers.Dense(inner_layer, activation='relu',
-                                 name=f"dec_inner_{i}")(inputs)
+                                 name=f"dec_inner_{i}")(inputs[i])
             dec_inner_layers.append(layer)
+
+        dec_middle_layers = list()
+        for i in range(latent_dim):
+            layer = layers.Dense(outer_layer, activation='relu',
+                                 name=f"dec_middle_{i}")(
+                dec_inner_layers[i]
+            )
+            dec_middle_layers.append(layer)
 
         dec_outer_layers = list()
         for i in range(latent_dim):
             layer = layers.Dense(outer_layer, activation='relu',
                                  name=f"dec_outer_{i}")(
-                dec_inner_layers[i]
+                dec_middle_layers[i]
             )
             dec_outer_layers.append(layer)
 
@@ -89,7 +106,6 @@ class Autoencoder(Model, ABC):
 
     def call(self, x: np.array, **kwargs):
         encoded = self.encoder(x)
-        joined = tf.concat(encoded, axis=1)
-        decoded = self.decoder(joined)
+        decoded = self.decoder(encoded)
         return decoded
 
