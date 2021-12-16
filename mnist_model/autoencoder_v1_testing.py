@@ -91,14 +91,13 @@ def build_and_store_models():
 
     """
 
-    (x_train, _), (x_test, _) = mnist.load_data()
+    (x_train, _), (_, _) = mnist.load_data()
 
     x_train = x_train.astype('float32') / 255.
 
     for n in range(1, 21):
 
         np.random.shuffle(x_train)
-        np.random.shuffle(x_test)
         x_data = x_train[:50_000]
         v_data = x_train[50_000:]
 

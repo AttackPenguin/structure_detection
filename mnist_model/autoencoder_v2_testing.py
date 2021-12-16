@@ -42,6 +42,12 @@ def get_mse_results():
 
     x_train = x_train.astype('float32') / 255.
     x_test = x_test.astype('float32') / 255.
+    x_train = x_train.reshape(
+        x_train.shape[0], x_train.shape[1]*x_train.shape[2]
+    )
+    x_test = x_test.reshape(
+        x_test.shape[0], x_test.shape[1]*x_test.shape[2]
+    )
 
     data = {x: list() for x in range(1, 21)}
 
@@ -91,14 +97,16 @@ def build_and_store_models():
 
     """
 
-    (x_train, _), (x_test, _) = mnist.load_data()
+    (x_train, _), (_, _) = mnist.load_data()
 
     x_train = x_train.astype('float32') / 255.
+    x_train = x_train.reshape(
+        x_train.shape[0], x_train.shape[1]*x_train.shape[2]
+    )
 
     for n in [3]:
 
         np.random.shuffle(x_train)
-        np.random.shuffle(x_test)
         x_data = x_train[:50_000]
         v_data = x_train[50_000:]
 
@@ -131,6 +139,9 @@ def examine_encoder_output():
     (_, _), (x_test, y_test) = mnist.load_data()
 
     x_test = x_test.astype('float32') / 255.
+    x_test = x_test.reshape(
+        x_test.shape[0], x_test.shape[1]*x_test.shape[2]
+    )
 
     grouped_images = {x: list() for x in range(10)}
     for i in range(len(x_test)):
