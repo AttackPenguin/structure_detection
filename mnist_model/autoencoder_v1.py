@@ -1,9 +1,11 @@
+from abc import ABC
+
 import tensorflow as tf
 from tensorflow.keras import layers
 from tensorflow.keras.models import Model
 
 
-class Autoencoder(Model):
+class Autoencoder(Model, ABC):
 
     def __init__(self,
                  input_dimensions: tuple[int, int] = (28, 28),
@@ -39,7 +41,7 @@ class Autoencoder(Model):
             layers.Reshape((28, 28))
         ])
 
-    def call(self, x):
+    def call(self, x, **kwargs):
         encoded = self.encoder(x)
         decoded = self.decoder(encoded)
         return decoded

@@ -9,6 +9,7 @@ import tensorflow as tf
 from sklearn.metrics import accuracy_score, precision_score, recall_score
 from sklearn.model_selection import train_test_split
 from tensorflow.keras import layers, losses
+from tensorflow.keras import models
 from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.datasets import mnist
 
@@ -21,7 +22,8 @@ model_dir = './models'
 
 def main():
     # get_mse_results()
-    build_and_store_models()
+    # build_and_store_models()
+    examine_encoder_output()
 
 
 def get_mse_results():
@@ -77,7 +79,7 @@ def get_mse_results():
             data[n].append(np.mean(results))
             print(np.mean(results))
 
-    with open('./data/latent_dim_of_10.pickle', 'wb') as file:
+    with open('./data/v1_latent_dim_10_samples.pickle', 'wb') as file:
         pickle.dump(data, file)
 
 
@@ -123,6 +125,24 @@ def build_and_store_models():
 
         save_file = os.path.join(model_dir, f"v1_n_{n}")
         autoencoder.save(save_file)
+
+
+def examine_encoder_output():
+    (_, _), (x_test, y_test) = mnist.load_data()
+
+    x_test = x_test.astype('float32') / 255.
+
+    grouped_images = {x: list() for x in range(10)}
+    for i in range(len(x_test)):
+        grouped_images[y_test[i]].append(x_test[i])
+
+    file_path = os.path.join(
+        model_dir, f"v1_n_10"
+    )
+    model = models.load_model(file_path)
+
+    results = model.encoder.predict(np.expand_dims(x_test[0], 0))
+    print(results)
 
 
 if __name__ == '__main__':
