@@ -21,8 +21,8 @@ model_dir = './models'
 
 
 def main():
-    # get_mse_results()
     build_and_store_models()
+    get_mse_results()
     # examine_encoder_output()
 
 
@@ -51,7 +51,8 @@ def get_mse_results():
 
     data = {x: list() for x in range(1, 21)}
 
-    for _ in range(10):
+    for i in range(25):
+        print(f"\n\n\nStarting Iteration {i} of 25...\n\n\n")
         for n in range(1, 21):
 
             np.random.shuffle(x_train)
@@ -85,7 +86,7 @@ def get_mse_results():
             data[n].append(np.mean(results))
             print(np.mean(results))
 
-    with open('./data/v1_latent_dim_10_samples.pickle', 'wb') as file:
+    with open('./data/v2_latent_dim_25_samples.pickle', 'wb') as file:
         pickle.dump(data, file)
 
 
@@ -104,15 +105,13 @@ def build_and_store_models():
         x_train.shape[0], x_train.shape[1]*x_train.shape[2]
     )
 
-    for n in [3]:
+    for n in range(21):
 
         np.random.shuffle(x_train)
         x_data = x_train[:50_000]
         v_data = x_train[50_000:]
 
         autoencoder = Autoencoder(
-            outer_layer=100,
-            inner_layer=100,
             latent_dim=n
         )
 
