@@ -61,8 +61,6 @@ def get_mse_results():
             v_data = x_train[10_000:20_000]
 
             autoencoder = Autoencoder(
-                outer_layer=100,
-                inner_layer=100,
                 latent_dim=n
             )
 
@@ -105,7 +103,7 @@ def build_and_store_models():
         x_train.shape[0], x_train.shape[1]*x_train.shape[2]
     )
 
-    for n in range(21):
+    for n in range(1, 21):
 
         np.random.shuffle(x_train)
         x_data = x_train[:50_000]
