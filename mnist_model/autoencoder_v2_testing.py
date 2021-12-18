@@ -21,7 +21,7 @@ model_dir = './models'
 
 
 def main():
-    build_and_store_models()
+    # build_and_store_models()
     get_mse_results()
     # examine_encoder_output()
 
@@ -51,8 +51,8 @@ def get_mse_results():
 
     data = {x: list() for x in range(1, 21)}
 
-    for i in range(25):
-        print(f"\n\n\nStarting Iteration {i} of 25...\n\n\n")
+    for i in range(10):
+        print(f"\n\n\nStarting Iteration {i+1} of 10...\n\n\n")
         for n in range(1, 21):
 
             np.random.shuffle(x_train)
@@ -80,11 +80,11 @@ def get_mse_results():
 
             results = list()
             for i in x_test[:1000]:
-                results.append(compare(autoencoder, i[np.newaxis, :, :]))
+                results.append(compare(autoencoder, i[np.newaxis, :]))
             data[n].append(np.mean(results))
             print(np.mean(results))
 
-    with open('./data/v2_latent_dim_25_samples.pickle', 'wb') as file:
+    with open('./data/v2_latent_dim_10_samples.pickle', 'wb') as file:
         pickle.dump(data, file)
 
 

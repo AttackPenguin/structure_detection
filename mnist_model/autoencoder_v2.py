@@ -10,8 +10,8 @@ class Autoencoder(Model, ABC):
 
     def __init__(self,
                  input_dim: tuple[int, int] = (28, 28),
-                 outer_layer: int = 80,
-                 middle_layer: int = 60,
+                 outer_layer: int = 60,
+                 middle_layer: int = 50,
                  inner_layer: int = 40,
                  latent_dim: int = 10):
 
