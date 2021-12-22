@@ -137,7 +137,7 @@ def generate_decoder_op(n: int,
 
     inputs = list()
     for i in range(len(input)):
-        inputs.append(tf.constant(np.array([[input[i]]])))
+        inputs.append(tf.constant([[input[i]]]))
 
     image = model.decoder(inputs)
 
